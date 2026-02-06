@@ -1,10 +1,12 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {PokemonListScreen} from '../features/pokemon-list';
 import {PokemonDetailScreen} from '../features/pokemon-detail';
 import {FavoritesScreen} from '../features/favorites';
 import {SearchScreen} from '../features/search/screen';
+import {colors} from '../constants/colors';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -22,13 +24,41 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 function MainTabs(): React.JSX.Element {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={PokemonListScreen} options={{title: 'Home'}} />
-      <Tab.Screen name="Search" component={SearchScreen} options={{title: 'Busqueda'}} />
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.textSecondary,
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={PokemonListScreen}
+        options={{
+          title: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <MaterialIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          title: 'Busqueda',
+          tabBarIcon: ({color, size}) => (
+            <MaterialIcons name="search" color={color} size={size} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Favorites"
         component={FavoritesScreen}
-        options={{title: 'Favoritos'}}
+        options={{
+          title: 'Favoritos',
+          tabBarIcon: ({color, size}) => (
+            <MaterialIcons name="favorite" color={color} size={size} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
