@@ -46,6 +46,7 @@ export function usePokemonDetailController(name: string) {
     isLoading,
     isError,
     isOffline,
+    hasData: Boolean(data),
     abilityDetail,
     abilityLoading: abilityQuery.isLoading,
     abilityError: abilityQuery.isError,

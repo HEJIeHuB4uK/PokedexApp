@@ -1,18 +1,26 @@
-import {useMemo, useRef} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 
 type AnyFn = (...args: any[]) => void;
 
 export function useDebounce<T extends AnyFn>(fn: T, delayMs: number): T {
   const fnRef = useRef(fn);
   fnRef.current = fn;
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   return useMemo(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
     const debounced = (...args: Parameters<T>) => {
-      if (timer) {
-        clearTimeout(timer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
       }
-      timer = setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         fnRef.current(...args);
       }, delayMs);
     };

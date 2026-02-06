@@ -1,6 +1,9 @@
 import {apiClient} from '../../core/api/client';
 import {endpoints} from '../../core/api/endpoints';
-import {PokemonAbilityResponse, PokemonDetailResponse} from '../../types/pokemon';
+import {
+  PokemonAbilityResponse,
+  PokemonDetailResponse,
+} from '../../types/pokemon';
 
 export async function fetchPokemonByName(name: string) {
   const response = await apiClient.get(endpoints.pokemonByName(name));

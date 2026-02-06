@@ -15,6 +15,7 @@ export type PokemonDetailLayoutProps = {
   isLoading: boolean;
   isError: boolean;
   isOffline: boolean;
+  hasData: boolean;
   abilityDetail: {name: string; effect: string; shortEffect: string} | null;
   abilityLoading: boolean;
   abilityError: boolean;
@@ -34,6 +35,7 @@ export function PokemonDetailLayout({
   isLoading,
   isError,
   isOffline,
+  hasData,
   abilityDetail,
   abilityLoading,
   abilityError,
@@ -53,6 +55,18 @@ export function PokemonDetailLayout({
     return (
       <View style={styles.container}>
         <Text style={styles.helper}>Ocurrio un error.</Text>
+      </View>
+    );
+  }
+
+  if (!hasData) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.helper}>
+          {isOffline
+            ? 'Sin informacion disponible sin conexion.'
+            : 'Sin informacion disponible.'}
+        </Text>
       </View>
     );
   }
@@ -78,7 +92,10 @@ export function PokemonDetailLayout({
       ) : null}
       <Pressable
         onPress={onToggleFavorite}
-        style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}>
+        style={[
+          styles.favoriteButton,
+          isFavorite && styles.favoriteButtonActive,
+        ]}>
         <Text
           style={[
             styles.favoriteButtonText,

@@ -14,6 +14,7 @@ export function PokemonDetailScreen(): React.JSX.Element {
     isLoading,
     isError,
     isOffline,
+    hasData,
     stats,
     types,
     abilities,
@@ -46,6 +47,7 @@ export function PokemonDetailScreen(): React.JSX.Element {
       isLoading={isLoading}
       isError={isError}
       isOffline={isOffline}
+      hasData={hasData}
       abilityDetail={abilityDetail}
       abilityLoading={abilityLoading}
       abilityError={abilityError}
