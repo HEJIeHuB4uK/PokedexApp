@@ -49,3 +49,17 @@ export type PokemonDetailResponse = {
   types: PokemonTypeSlot[];
   abilities: PokemonAbilitySlot[];
 };
+
+export type AbilityEffectEntry = {
+  effect: string;
+  short_effect: string;
+  language: {
+    name: string;
+  };
+};
+
+export type PokemonAbilityResponse = {
+  id: number;
+  name: string;
+  effect_entries: AbilityEffectEntry[];
+};

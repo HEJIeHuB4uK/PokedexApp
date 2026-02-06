@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, ScrollView, Text, View} from 'react-native';
+import {Modal, Pressable, ScrollView, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {colors} from '../../constants/colors';
 import {styles} from './styles';
@@ -15,6 +15,12 @@ export type PokemonDetailLayoutProps = {
   isLoading: boolean;
   isError: boolean;
   isOffline: boolean;
+  abilityDetail: {name: string; effect: string; shortEffect: string} | null;
+  abilityLoading: boolean;
+  abilityError: boolean;
+  selectedAbility: string | null;
+  onAbilityPress: (name: string) => void;
+  onCloseAbility: () => void;
 };
 
 export function PokemonDetailLayout({
@@ -28,6 +34,12 @@ export function PokemonDetailLayout({
   isLoading,
   isError,
   isOffline,
+  abilityDetail,
+  abilityLoading,
+  abilityError,
+  selectedAbility,
+  onAbilityPress,
+  onCloseAbility,
 }: PokemonDetailLayoutProps): React.JSX.Element {
   if (isLoading) {
     return (
@@ -112,12 +124,47 @@ export function PokemonDetailLayout({
         <Text style={styles.sectionTitle}>Habilidades</Text>
         <View style={styles.abilitiesRow}>
           {abilities.map(ability => (
-            <View key={ability.name} style={styles.abilityChip}>
+            <Pressable
+              key={ability.name}
+              style={styles.abilityChip}
+              onPress={() => onAbilityPress(ability.name)}>
               <Text style={styles.abilityChipText}>{ability.name}</Text>
-            </View>
+            </Pressable>
           ))}
         </View>
       </View>
+      <Modal
+        visible={Boolean(selectedAbility)}
+        transparent
+        animationType="fade"
+        onRequestClose={onCloseAbility}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>
+              {selectedAbility ?? 'Habilidad'}
+            </Text>
+            {abilityLoading ? (
+              <Text style={styles.modalText}>Cargando...</Text>
+            ) : abilityError ? (
+              <Text style={styles.modalText}>Ocurrio un error.</Text>
+            ) : abilityDetail ? (
+              <>
+                <Text style={styles.modalText}>{abilityDetail.effect}</Text>
+                {abilityDetail.shortEffect ? (
+                  <Text style={styles.modalTextMuted}>
+                    {abilityDetail.shortEffect}
+                  </Text>
+                ) : null}
+              </>
+            ) : (
+              <Text style={styles.modalText}>Sin informacion.</Text>
+            )}
+            <Pressable style={styles.modalButton} onPress={onCloseAbility}>
+              <Text style={styles.modalButtonText}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }

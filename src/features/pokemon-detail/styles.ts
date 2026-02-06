@@ -136,4 +136,47 @@ export const styles = StyleSheet.create({
     color: colors.textSecondary,
     textTransform: 'capitalize',
   },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  modalCard: {
+    width: '100%',
+    maxWidth: 420,
+    borderRadius: 16,
+    backgroundColor: colors.surface,
+    padding: 16,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: colors.textPrimary,
+    textTransform: 'capitalize',
+    marginBottom: 8,
+  },
+  modalText: {
+    fontSize: 13,
+    color: colors.textPrimary,
+  },
+  modalTextMuted: {
+    marginTop: 8,
+    fontSize: 12,
+    color: colors.textSecondary,
+  },
+  modalButton: {
+    marginTop: 12,
+    alignSelf: 'flex-end',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    backgroundColor: colors.accent,
+  },
+  modalButtonText: {
+    color: colors.surface,
+    fontSize: 12,
+    fontWeight: '700',
+  },
 });
