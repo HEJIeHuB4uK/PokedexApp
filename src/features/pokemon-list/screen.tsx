@@ -13,6 +13,7 @@ export function PokemonListScreen(): React.JSX.Element {
   const {
     items,
     query,
+    isOffline,
     types,
     selectedType,
     onChangeQuery,
@@ -44,6 +45,7 @@ export function PokemonListScreen(): React.JSX.Element {
     <PokemonListLayout
       items={items}
       query={query}
+      isOffline={isOffline}
       types={types}
       selectedType={selectedType}
       onChangeQuery={onChangeQuery}

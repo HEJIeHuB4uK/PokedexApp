@@ -1,8 +1,10 @@
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {InfiniteData, useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {apiConfig, queryKeys} from '../../constants/api';
 import {pokemonTypes, PokemonType} from '../../constants/pokemonTypes';
 import {useDebounce} from '../../hooks/useDebounce';
+import {useOfflineStatus} from '../../hooks/useOfflineStatus';
+import {useSearchHistoryStore} from '../../store/searchHistoryStore';
 import {
   fetchPokemonByName,
   fetchPokemonByType,
@@ -31,6 +33,8 @@ export function usePokemonListController() {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [selectedType, setSelectedType] = useState<'all' | PokemonType>('all');
+  const {isOffline, isOnline} = useOfflineStatus();
+  const addSearchHistory = useSearchHistoryStore(state => state.add);
 
   const debouncedSetQuery = useDebounce((value: string) => {
     setDebouncedQuery(normalizeSearchTerm(value));
@@ -48,19 +52,20 @@ export function usePokemonListController() {
     queryFn: ({pageParam}) => fetchPokemonList(pageParam, apiConfig.pageSize),
     getNextPageParam: (lastPage, pages) =>
       lastPage.next ? pages.length * apiConfig.pageSize : undefined,
+    enabled: isOnline,
   });
 
   const searchQuery = useQuery({
     queryKey: [queryKeys.pokemonDetail, debouncedQuery],
     queryFn: () => fetchPokemonByName(debouncedQuery),
-    enabled: debouncedQuery.length > 0 && selectedType === 'all',
+    enabled: debouncedQuery.length > 0 && selectedType === 'all' && isOnline,
     retry: false,
   });
 
   const typeQuery = useQuery<PokemonTypeResponse>({
     queryKey: [queryKeys.pokemonType, selectedType],
     queryFn: () => fetchPokemonByType(selectedType),
-    enabled: selectedType !== 'all',
+    enabled: selectedType !== 'all' && isOnline,
   });
 
   const listItems = useMemo(() => {
@@ -143,6 +148,12 @@ export function usePokemonListController() {
     debouncedSetQuery(value);
   };
 
+  useEffect(() => {
+    if (debouncedQuery.length > 0) {
+      addSearchHistory(debouncedQuery);
+    }
+  }, [addSearchHistory, debouncedQuery]);
+
   const onSelectType = (value: string) => {
     if (value === selectedType) {
       return;
@@ -155,6 +166,7 @@ export function usePokemonListController() {
   return {
     items,
     query,
+    isOffline,
     types,
     selectedType,
     isLoading,

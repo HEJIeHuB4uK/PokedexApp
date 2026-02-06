@@ -19,6 +19,7 @@ export type PokemonListItem = {
 type PokemonListLayoutProps = {
   items: PokemonListItem[];
   query: string;
+  isOffline: boolean;
   types: string[];
   selectedType: string;
   onChangeQuery: (value: string) => void;
@@ -34,6 +35,7 @@ type PokemonListLayoutProps = {
 export function PokemonListLayout({
   items,
   query,
+  isOffline,
   types,
   selectedType,
   onChangeQuery,
@@ -55,6 +57,9 @@ export function PokemonListLayout({
         value={query}
         onChangeText={onChangeQuery}
       />
+      {isOffline ? (
+        <Text style={styles.offlineBanner}>Sin conexion. Mostrando cache.</Text>
+      ) : null}
       <View style={styles.filtersContainer}>
         <ScrollView
           horizontal

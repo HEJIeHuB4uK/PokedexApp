@@ -9,7 +9,7 @@ type RouteParams = {name: string};
 export function PokemonDetailScreen(): React.JSX.Element {
   const route = useRoute();
   const {name} = route.params as RouteParams;
-  const {imageUrl, isLoading, isError, stats, types, abilities} =
+  const {imageUrl, isLoading, isError, isOffline, stats, types, abilities} =
     usePokemonDetailController(name);
   const isFavorite = useFavoritesStore(state => state.isFavorite(name));
   const toggle = useFavoritesStore(state => state.toggle);
@@ -32,6 +32,7 @@ export function PokemonDetailScreen(): React.JSX.Element {
       onToggleFavorite={onToggleFavorite}
       isLoading={isLoading}
       isError={isError}
+      isOffline={isOffline}
     />
   );
 }

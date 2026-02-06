@@ -14,6 +14,7 @@ export type PokemonDetailLayoutProps = {
   onToggleFavorite: () => void;
   isLoading: boolean;
   isError: boolean;
+  isOffline: boolean;
 };
 
 export function PokemonDetailLayout({
@@ -26,6 +27,7 @@ export function PokemonDetailLayout({
   onToggleFavorite,
   isLoading,
   isError,
+  isOffline,
 }: PokemonDetailLayoutProps): React.JSX.Element {
   if (isLoading) {
     return (
@@ -59,6 +61,9 @@ export function PokemonDetailLayout({
         <View style={styles.imagePlaceholder} />
       )}
       <Text style={styles.title}>{name}</Text>
+      {isOffline ? (
+        <Text style={styles.offlineBanner}>Sin conexion. Mostrando cache.</Text>
+      ) : null}
       <Pressable
         onPress={onToggleFavorite}
         style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}>

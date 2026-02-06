@@ -22,6 +22,16 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     color: colors.textPrimary,
   },
+  offlineBanner: {
+    marginTop: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    backgroundColor: colors.border,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    fontSize: 12,
+  },
   filtersContainer: {
     marginTop: 8,
     marginBottom: 8,
