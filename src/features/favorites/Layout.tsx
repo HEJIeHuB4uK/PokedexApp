@@ -1,7 +1,6 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import {
   Animated,
-  FlatList,
   Pressable,
   Text,
   useWindowDimensions,
@@ -34,7 +33,58 @@ export function FavoritesLayout({
       : width >= breakpoints.tablet
       ? grid.columnsTablet
       : grid.columnsMobile;
-  const ITEM_HEIGHT = 140;
+  const ROW_HEIGHT = 152;
+  const renderItem = useCallback(
+    ({item, index}: {item: FavoritesLayoutItem; index: number}) => {
+      const rowIndex = Math.floor(index / columns);
+      const rowOffset = rowIndex * ROW_HEIGHT;
+      const opacity = scrollY.interpolate({
+        inputRange: [rowOffset - height, rowOffset - height * 0.6, rowOffset],
+        outputRange: [0.15, 0.9, 1],
+        extrapolate: 'clamp',
+      });
+      const translateY = scrollY.interpolate({
+        inputRange: [rowOffset - height, rowOffset - height * 0.6, rowOffset],
+        outputRange: [10, 0, 0],
+        extrapolate: 'clamp',
+      });
+      return (
+        <Animated.View
+          style={[styles.card, {opacity, transform: [{translateY}]}]}>
+          <Pressable
+            onPress={() => onSelectPokemon(item.name)}
+            style={({pressed}) => [
+              styles.cardPressable,
+              pressed && styles.cardPressablePressed,
+            ]}
+            android_ripple={{color: styles.helper.color}}>
+            <PokemonCard name={item.name} imageUrl={item.imageUrl} />
+          </Pressable>
+        </Animated.View>
+      );
+    },
+    [columns, height, onSelectPokemon, scrollY, ROW_HEIGHT],
+  );
+  const listEmptyComponent = useMemo(
+    () => (
+      <EmptyState
+        title="Sin favoritos"
+        subtitle="Agrega Pokemon desde Home o Busqueda."
+      />
+    ),
+    [],
+  );
+  const getItemLayout = useCallback(
+    (_: ArrayLike<FavoritesLayoutItem> | null | undefined, index: number) => {
+      const rowIndex = Math.floor(index / columns);
+      return {
+        length: ROW_HEIGHT,
+        offset: ROW_HEIGHT * rowIndex,
+        index,
+      };
+    },
+    [columns, ROW_HEIGHT],
+  );
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Favoritos</Text>
@@ -50,53 +100,14 @@ export function FavoritesLayout({
         windowSize={5}
         updateCellsBatchingPeriod={50}
         removeClippedSubviews
+        getItemLayout={getItemLayout}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           {useNativeDriver: true},
         )}
         scrollEventThrottle={16}
-        renderItem={({item, index}) => {
-          const rowIndex = Math.floor(index / columns);
-          const rowOffset = rowIndex * ITEM_HEIGHT;
-          const opacity = scrollY.interpolate({
-            inputRange: [
-              rowOffset - height,
-              rowOffset - height * 0.6,
-              rowOffset,
-            ],
-            outputRange: [0.15, 0.9, 1],
-            extrapolate: 'clamp',
-          });
-          const translateY = scrollY.interpolate({
-            inputRange: [
-              rowOffset - height,
-              rowOffset - height * 0.6,
-              rowOffset,
-            ],
-            outputRange: [10, 0, 0],
-            extrapolate: 'clamp',
-          });
-          return (
-            <Animated.View
-              style={[styles.card, {opacity, transform: [{translateY}]}]}>
-              <Pressable
-                onPress={() => onSelectPokemon(item.name)}
-                style={({pressed}) => [
-                  styles.cardPressable,
-                  pressed && styles.cardPressablePressed,
-                ]}
-                android_ripple={{color: styles.helper.color}}>
-                <PokemonCard name={item.name} imageUrl={item.imageUrl} />
-              </Pressable>
-            </Animated.View>
-          );
-        }}
-        ListEmptyComponent={
-          <EmptyState
-            title="Sin favoritos"
-            subtitle="Agrega Pokemon desde Home o Busqueda."
-          />
-        }
+        renderItem={renderItem}
+        ListEmptyComponent={listEmptyComponent}
       />
     </View>
   );

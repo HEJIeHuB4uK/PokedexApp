@@ -8,7 +8,7 @@ type PokemonCardProps = {
   imageUrl?: string | null;
 };
 
-export function PokemonCard({
+export const PokemonCard = React.memo(function PokemonCard({
   name,
   imageUrl,
 }: PokemonCardProps): React.JSX.Element {
@@ -22,4 +22,4 @@ export function PokemonCard({
       <Text style={styles.name}>{name}</Text>
     </View>
   );
-}
+});

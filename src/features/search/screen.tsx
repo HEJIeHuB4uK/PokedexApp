@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useCallback, useLayoutEffect} from 'react';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -33,13 +33,19 @@ export function SearchScreen(): React.JSX.Element {
     });
   }, [navigation]);
 
-  const onSelectPokemon = (name: string) => {
-    navigation.navigate('PokemonDetail', {name});
-  };
+  const onSelectPokemon = useCallback(
+    (name: string) => {
+      navigation.navigate('PokemonDetail', {name});
+    },
+    [navigation],
+  );
 
-  const onSelectRecent = (name: string) => {
-    navigation.navigate('PokemonDetail', {name});
-  };
+  const onSelectRecent = useCallback(
+    (name: string) => {
+      navigation.navigate('PokemonDetail', {name});
+    },
+    [navigation],
+  );
 
   return (
     <SearchLayout

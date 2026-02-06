@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -76,8 +76,68 @@ export function PokemonListLayout({
       : width >= breakpoints.tablet
       ? grid.columnsTablet
       : grid.columnsMobile;
-  const ITEM_HEIGHT = 140;
+  const ROW_HEIGHT = 152;
   const showEmpty = !isLoading && items.length === 0;
+  const renderItem = useCallback(
+    ({item, index}: {item: PokemonListItem; index: number}) => {
+      const rowIndex = Math.floor(index / columns);
+      const rowOffset = rowIndex * ROW_HEIGHT;
+      const opacity = scrollY.interpolate({
+        inputRange: [rowOffset - height, rowOffset - height * 0.6, rowOffset],
+        outputRange: [0.15, 0.9, 1],
+        extrapolate: 'clamp',
+      });
+      const translateY = scrollY.interpolate({
+        inputRange: [rowOffset - height, rowOffset - height * 0.6, rowOffset],
+        outputRange: [10, 0, 0],
+        extrapolate: 'clamp',
+      });
+      return (
+        <Animated.View
+          style={[styles.card, {opacity, transform: [{translateY}]}]}>
+          <Pressable
+            onPress={() => onSelectPokemon(item.name)}
+            style={({pressed}) => [
+              styles.cardPressable,
+              pressed && styles.cardPressablePressed,
+            ]}
+            android_ripple={{color: styles.historyChip.borderColor}}>
+            <PokemonCard name={item.name} imageUrl={item.imageUrl} />
+          </Pressable>
+        </Animated.View>
+      );
+    },
+    [columns, height, onSelectPokemon, scrollY, ROW_HEIGHT],
+  );
+  const listEmptyComponent = useMemo(() => {
+    if (isLoading) {
+      return <ActivityIndicator size="small" />;
+    }
+    if (isError) {
+      return <Text style={styles.helper}>Ocurrio un error.</Text>;
+    }
+    if (showEmpty) {
+      return <Text style={styles.helper}>Sin resultados.</Text>;
+    }
+    return null;
+  }, [isError, isLoading, showEmpty]);
+  const listFooterComponent = useMemo(() => {
+    if (isFetchingNextPage && hasNextPage) {
+      return <ActivityIndicator size="small" />;
+    }
+    return null;
+  }, [hasNextPage, isFetchingNextPage]);
+  const getItemLayout = useCallback(
+    (_: ArrayLike<PokemonListItem> | null | undefined, index: number) => {
+      const rowIndex = Math.floor(index / columns);
+      return {
+        length: ROW_HEIGHT,
+        offset: ROW_HEIGHT * rowIndex,
+        index,
+      };
+    },
+    [columns, ROW_HEIGHT],
+  );
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
@@ -176,62 +236,16 @@ export function PokemonListLayout({
         windowSize={5}
         updateCellsBatchingPeriod={50}
         removeClippedSubviews
+        getItemLayout={getItemLayout}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           {useNativeDriver: true},
         )}
         scrollEventThrottle={16}
         onEndReached={onEndReached}
-        ListEmptyComponent={
-          isLoading ? (
-            <ActivityIndicator size="small" />
-          ) : isError ? (
-            <Text style={styles.helper}>Ocurrio un error.</Text>
-          ) : showEmpty ? (
-            <Text style={styles.helper}>Sin resultados.</Text>
-          ) : null
-        }
-        ListFooterComponent={
-          isFetchingNextPage && hasNextPage ? (
-            <ActivityIndicator size="small" />
-          ) : null
-        }
-        renderItem={({item, index}) => {
-          const rowIndex = Math.floor(index / columns);
-          const rowOffset = rowIndex * ITEM_HEIGHT;
-          const opacity = scrollY.interpolate({
-            inputRange: [
-              rowOffset - height,
-              rowOffset - height * 0.6,
-              rowOffset,
-            ],
-            outputRange: [0.15, 0.9, 1],
-            extrapolate: 'clamp',
-          });
-          const translateY = scrollY.interpolate({
-            inputRange: [
-              rowOffset - height,
-              rowOffset - height * 0.6,
-              rowOffset,
-            ],
-            outputRange: [10, 0, 0],
-            extrapolate: 'clamp',
-          });
-          return (
-            <Animated.View
-              style={[styles.card, {opacity, transform: [{translateY}]}]}>
-              <Pressable
-                onPress={() => onSelectPokemon(item.name)}
-                style={({pressed}) => [
-                  styles.cardPressable,
-                  pressed && styles.cardPressablePressed,
-                ]}
-                android_ripple={{color: styles.historyChip.borderColor}}>
-                <PokemonCard name={item.name} imageUrl={item.imageUrl} />
-              </Pressable>
-            </Animated.View>
-          );
-        }}
+        ListEmptyComponent={listEmptyComponent}
+        ListFooterComponent={listFooterComponent}
+        renderItem={renderItem}
       />
     </View>
   );

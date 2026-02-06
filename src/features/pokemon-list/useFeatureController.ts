@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {InfiniteData, useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {apiConfig, queryKeys} from '../../shared/utils/api';
 import {pokemonTypes, PokemonType} from '../../shared/utils/pokemonTypes';
@@ -12,7 +12,10 @@ import {
   fetchPokemonList,
 } from './services';
 import {PokemonListItem} from './Layout';
-import {PokemonListResponse, PokemonTypeResponse} from '../../shared/types/pokemon';
+import {
+  PokemonListResponse,
+  PokemonTypeResponse,
+} from '../../shared/types/pokemon';
 
 function getPokemonIdFromUrl(url: string): number | null {
   const match = url.match(/\/pokemon\/(\d+)\/?$/);
@@ -137,19 +140,22 @@ export function usePokemonListController() {
       ? searchQuery.isError
       : listQuery.isError;
 
-  const onEndReached = () => {
+  const onEndReached = useCallback(() => {
     if (debouncedQuery || selectedType !== 'all') {
       return;
     }
     if (listQuery.hasNextPage && !listQuery.isFetchingNextPage) {
       listQuery.fetchNextPage();
     }
-  };
+  }, [debouncedQuery, listQuery, selectedType]);
 
-  const onChangeQuery = (value: string) => {
-    setQuery(value);
-    debouncedSetQuery(value);
-  };
+  const onChangeQuery = useCallback(
+    (value: string) => {
+      setQuery(value);
+      debouncedSetQuery(value);
+    },
+    [debouncedSetQuery],
+  );
 
   useEffect(() => {
     if (debouncedQuery.length > 0) {
@@ -157,17 +163,26 @@ export function usePokemonListController() {
     }
   }, [addSearchHistory, debouncedQuery]);
 
-  const onSelectType = (value: string) => {
-    if (value === selectedType) {
-      return;
-    }
-    setSelectedType(value as 'all' | PokemonType);
-  };
+  const onSelectType = useCallback(
+    (value: string) => {
+      if (value === selectedType) {
+        return;
+      }
+      setSelectedType(value as 'all' | PokemonType);
+    },
+    [selectedType],
+  );
 
-  const types = ['all', ...pokemonTypes];
+  const types = useMemo(() => ['all', ...pokemonTypes], []);
 
-  const recentSearches = searchHistory.slice(0, 8);
-  const recentViews = viewHistory.map(item => item.name).slice(0, 8);
+  const recentSearches = useMemo(
+    () => searchHistory.slice(0, 8),
+    [searchHistory],
+  );
+  const recentViews = useMemo(
+    () => viewHistory.map(item => item.name).slice(0, 8),
+    [viewHistory],
+  );
 
   return {
     items,

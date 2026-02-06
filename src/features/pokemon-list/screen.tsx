@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -30,13 +30,19 @@ export function PokemonListScreen(): React.JSX.Element {
     hasNextPage,
   } = usePokemonListController();
 
-  const onSelectPokemon = (name: string) => {
-    navigation.navigate('PokemonDetail', {name});
-  };
+  const onSelectPokemon = useCallback(
+    (name: string) => {
+      navigation.navigate('PokemonDetail', {name});
+    },
+    [navigation],
+  );
 
-  const onSelectRecent = (name: string) => {
-    navigation.navigate('PokemonDetail', {name});
-  };
+  const onSelectRecent = useCallback(
+    (name: string) => {
+      navigation.navigate('PokemonDetail', {name});
+    },
+    [navigation],
+  );
 
   return (
     <PokemonListLayout
