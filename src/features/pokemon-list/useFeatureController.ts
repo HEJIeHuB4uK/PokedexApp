@@ -5,6 +5,7 @@ import {pokemonTypes, PokemonType} from '../../constants/pokemonTypes';
 import {useDebounce} from '../../hooks/useDebounce';
 import {useOfflineStatus} from '../../hooks/useOfflineStatus';
 import {useSearchHistoryStore} from '../../store/searchHistoryStore';
+import {useViewHistoryStore} from '../../store/viewHistoryStore';
 import {
   fetchPokemonByName,
   fetchPokemonByType,
@@ -35,6 +36,8 @@ export function usePokemonListController() {
   const [selectedType, setSelectedType] = useState<'all' | PokemonType>('all');
   const {isOffline, isOnline} = useOfflineStatus();
   const addSearchHistory = useSearchHistoryStore(state => state.add);
+  const searchHistory = useSearchHistoryStore(state => state.history);
+  const viewHistory = useViewHistoryStore(state => state.history);
 
   const debouncedSetQuery = useDebounce((value: string) => {
     setDebouncedQuery(normalizeSearchTerm(value));
@@ -163,10 +166,15 @@ export function usePokemonListController() {
 
   const types = ['all', ...pokemonTypes];
 
+  const recentSearches = searchHistory.slice(0, 8);
+  const recentViews = viewHistory.map(item => item.name).slice(0, 8);
+
   return {
     items,
     query,
     isOffline,
+    recentSearches,
+    recentViews,
     types,
     selectedType,
     isLoading,

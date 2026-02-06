@@ -32,6 +32,33 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
   },
+  historySection: {
+    marginTop: 12,
+  },
+  historyTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: colors.textPrimary,
+    marginBottom: 6,
+  },
+  historyRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  historyChip: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 14,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  historyChipText: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    textTransform: 'capitalize',
+  },
   filtersContainer: {
     marginTop: 8,
     marginBottom: 8,

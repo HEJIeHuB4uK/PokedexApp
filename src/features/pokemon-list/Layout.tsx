@@ -22,10 +22,13 @@ type PokemonListLayoutProps = {
   items: PokemonListItem[];
   query: string;
   isOffline: boolean;
+  recentSearches: string[];
+  recentViews: string[];
   types: string[];
   selectedType: string;
   onChangeQuery: (value: string) => void;
   onSelectType: (value: string) => void;
+  onSelectRecent: (name: string) => void;
   onSelectPokemon: (name: string) => void;
   onEndReached: () => void;
   isLoading: boolean;
@@ -38,10 +41,13 @@ export function PokemonListLayout({
   items,
   query,
   isOffline,
+  recentSearches,
+  recentViews,
   types,
   selectedType,
   onChangeQuery,
   onSelectType,
+  onSelectRecent,
   onSelectPokemon,
   onEndReached,
   isLoading,
@@ -68,6 +74,36 @@ export function PokemonListLayout({
       />
       {isOffline ? (
         <Text style={styles.offlineBanner}>Sin conexion. Mostrando cache.</Text>
+      ) : null}
+      {recentSearches.length > 0 ? (
+        <View style={styles.historySection}>
+          <Text style={styles.historyTitle}>Busquedas recientes</Text>
+          <View style={styles.historyRow}>
+            {recentSearches.map(item => (
+              <Pressable
+                key={`search-${item}`}
+                style={styles.historyChip}
+                onPress={() => onSelectRecent(item)}>
+                <Text style={styles.historyChipText}>{item}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      ) : null}
+      {recentViews.length > 0 ? (
+        <View style={styles.historySection}>
+          <Text style={styles.historyTitle}>Vistos recientemente</Text>
+          <View style={styles.historyRow}>
+            {recentViews.map(item => (
+              <Pressable
+                key={`view-${item}`}
+                style={styles.historyChip}
+                onPress={() => onSelectRecent(item)}>
+                <Text style={styles.historyChipText}>{item}</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
       ) : null}
       <View style={styles.filtersContainer}>
         <ScrollView

@@ -14,6 +14,8 @@ export function PokemonListScreen(): React.JSX.Element {
     items,
     query,
     isOffline,
+    recentSearches,
+    recentViews,
     types,
     selectedType,
     onChangeQuery,
@@ -26,6 +28,10 @@ export function PokemonListScreen(): React.JSX.Element {
   } = usePokemonListController();
 
   const onSelectPokemon = (name: string) => {
+    navigation.navigate('PokemonDetail', {name});
+  };
+
+  const onSelectRecent = (name: string) => {
     navigation.navigate('PokemonDetail', {name});
   };
 
@@ -46,10 +52,13 @@ export function PokemonListScreen(): React.JSX.Element {
       items={items}
       query={query}
       isOffline={isOffline}
+      recentSearches={recentSearches}
+      recentViews={recentViews}
       types={types}
       selectedType={selectedType}
       onChangeQuery={onChangeQuery}
       onSelectType={onSelectType}
+      onSelectRecent={onSelectRecent}
       onSelectPokemon={onSelectPokemon}
       onEndReached={onEndReached}
       isLoading={isLoading}
