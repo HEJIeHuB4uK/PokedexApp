@@ -41,6 +41,7 @@ export function SearchLayout({
       recentViews={[]}
       types={types}
       selectedType={selectedType}
+      title="Busqueda"
       showHistory
       showFilters
       showSearch

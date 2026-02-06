@@ -27,6 +27,7 @@ type PokemonListLayoutProps = {
   recentViews?: string[];
   types: string[];
   selectedType: string;
+  title?: string;
   showHistory?: boolean;
   showFilters?: boolean;
   showSearch?: boolean;
@@ -55,6 +56,7 @@ export function PokemonListLayout({
   showFilters = true,
   showSearch = true,
   showSearchIcon = false,
+  title = 'Pokedex',
   autoFocusSearch = false,
   onChangeQuery,
   onSelectType,
@@ -78,7 +80,7 @@ export function PokemonListLayout({
   const showEmpty = !isLoading && items.length === 0;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pokedex</Text>
+      <Text style={styles.title}>{title}</Text>
       {showSearch ? (
         <View style={styles.searchRow}>
           {showSearchIcon ? (
