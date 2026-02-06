@@ -1,5 +1,13 @@
 import React from 'react';
-import {ActivityIndicator, FlatList, Text, TextInput, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import {PokemonCard} from '../../components/PokemonCard';
 import {styles} from './styles';
 
@@ -11,7 +19,11 @@ export type PokemonListItem = {
 type PokemonListLayoutProps = {
   items: PokemonListItem[];
   query: string;
+  types: string[];
+  selectedType: string;
   onChangeQuery: (value: string) => void;
+  onSelectType: (value: string) => void;
+  onSelectPokemon: (name: string) => void;
   onEndReached: () => void;
   isLoading: boolean;
   isError: boolean;
@@ -22,7 +34,11 @@ type PokemonListLayoutProps = {
 export function PokemonListLayout({
   items,
   query,
+  types,
+  selectedType,
   onChangeQuery,
+  onSelectType,
+  onSelectPokemon,
   onEndReached,
   isLoading,
   isError,
@@ -39,6 +55,34 @@ export function PokemonListLayout({
         value={query}
         onChangeText={onChangeQuery}
       />
+      <View style={styles.filtersContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.filtersRow}>
+          {types.map((type, index) => {
+            const isActive = type === selectedType;
+            return (
+              <Pressable
+                key={type}
+                onPress={() => onSelectType(type)}
+                style={[
+                  styles.filterChip,
+                  isActive && styles.filterChipActive,
+                  index < types.length - 1 && styles.filterChipSpacing,
+                ]}>
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    isActive && styles.filterChipTextActive,
+                  ]}>
+                  {type === 'all' ? 'Todos' : type}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
       <FlatList
         data={items}
         keyExtractor={item => item.name}
@@ -61,9 +105,11 @@ export function PokemonListLayout({
           ) : null
         }
         renderItem={({item}) => (
-          <View style={styles.card}>
+          <Pressable
+            style={styles.card}
+            onPress={() => onSelectPokemon(item.name)}>
             <PokemonCard name={item.name} imageUrl={item.imageUrl} />
-          </View>
+          </Pressable>
         )}
       />
     </View>

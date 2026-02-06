@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {apiClient} from '../../core/api/client';
 import {endpoints} from '../../core/api/endpoints';
-import {PokemonListResponse} from '../../types/pokemon';
+import {PokemonListResponse, PokemonTypeResponse} from '../../types/pokemon';
 
 export async function fetchPokemonList(offset: number, limit: number) {
   const response = await apiClient.get(endpoints.pokemonList(offset, limit));
@@ -22,4 +22,9 @@ export async function fetchPokemonByName(name: string) {
     }
     throw error;
   }
+}
+
+export async function fetchPokemonByType(type: string) {
+  const response = await apiClient.get(endpoints.typeByName(type));
+  return response.data as PokemonTypeResponse;
 }

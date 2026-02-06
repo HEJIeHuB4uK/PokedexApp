@@ -4,7 +4,7 @@ import {PokemonListScreen} from '../features/pokemon-list';
 import {PokemonDetailScreen} from '../features/pokemon-detail';
 import {FavoritesScreen} from '../features/favorites';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   PokemonList: undefined;
   PokemonDetail: {name: string};
   Favorites: undefined;
