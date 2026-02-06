@@ -15,7 +15,8 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   listContent: {
-    paddingVertical: 16,
+    paddingVertical: 12,
+    paddingBottom: 32,
   },
   row: {
     gap: 12,
@@ -23,6 +24,14 @@ export const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
+  },
+  cardPressable: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  cardPressablePressed: {
+    opacity: 0.9,
+    transform: [{scale: 0.98}],
   },
   helper: {
     marginTop: 8,

@@ -128,6 +128,14 @@ export const styles = StyleSheet.create({
   card: {
     flex: 1,
   },
+  cardPressable: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  cardPressablePressed: {
+    opacity: 0.9,
+    transform: [{scale: 0.98}],
+  },
   helper: {
     marginTop: 8,
     textAlign: 'center',

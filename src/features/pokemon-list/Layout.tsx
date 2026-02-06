@@ -215,7 +215,13 @@ export function PokemonListLayout({
           return (
             <Animated.View
               style={[styles.card, {opacity, transform: [{translateY}]}]}>
-              <Pressable onPress={() => onSelectPokemon(item.name)}>
+              <Pressable
+                onPress={() => onSelectPokemon(item.name)}
+                style={({pressed}) => [
+                  styles.cardPressable,
+                  pressed && styles.cardPressablePressed,
+                ]}
+                android_ripple={{color: styles.historyChip.borderColor}}>
                 <PokemonCard name={item.name} imageUrl={item.imageUrl} />
               </Pressable>
             </Animated.View>
