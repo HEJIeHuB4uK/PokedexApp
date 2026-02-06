@@ -25,6 +25,27 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
     color: colors.textPrimary,
   },
+  favoriteButton: {
+    marginTop: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  favoriteButtonActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accent,
+  },
+  favoriteButtonText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: colors.textSecondary,
+  },
+  favoriteButtonTextActive: {
+    color: colors.surface,
+  },
   helper: {
     marginTop: 8,
     textAlign: 'center',

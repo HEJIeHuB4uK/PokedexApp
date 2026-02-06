@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {enableScreens} from 'react-native-screens';
@@ -7,6 +7,7 @@ import {createAsyncStoragePersister} from '@tanstack/query-async-storage-persist
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {queryClient} from './queryClient';
 import {AppNavigator} from './AppNavigator';
+import {useFavoritesStore} from '../store/favoritesStore';
 
 enableScreens();
 
@@ -15,6 +16,12 @@ const persister = createAsyncStoragePersister({
 });
 
 export function RootProviders(): React.JSX.Element {
+  const loadFavorites = useFavoritesStore(state => state.load);
+
+  useEffect(() => {
+    loadFavorites();
+  }, [loadFavorites]);
+
   return (
     <SafeAreaProvider>
       <PersistQueryClientProvider

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Pressable, ScrollView, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {colors} from '../../constants/colors';
 import {styles} from './styles';
@@ -10,6 +10,8 @@ export type PokemonDetailLayoutProps = {
   types: {name: string}[];
   stats: {name: string; value: number}[];
   abilities: {name: string}[];
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
   isLoading: boolean;
   isError: boolean;
 };
@@ -20,6 +22,8 @@ export function PokemonDetailLayout({
   types,
   stats,
   abilities,
+  isFavorite,
+  onToggleFavorite,
   isLoading,
   isError,
 }: PokemonDetailLayoutProps): React.JSX.Element {
@@ -55,6 +59,17 @@ export function PokemonDetailLayout({
         <View style={styles.imagePlaceholder} />
       )}
       <Text style={styles.title}>{name}</Text>
+      <Pressable
+        onPress={onToggleFavorite}
+        style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}>
+        <Text
+          style={[
+            styles.favoriteButtonText,
+            isFavorite && styles.favoriteButtonTextActive,
+          ]}>
+          {isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        </Text>
+      </Pressable>
       <View style={styles.typesRow}>
         {types.map(type => (
           <View

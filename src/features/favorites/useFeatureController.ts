@@ -1,20 +1,13 @@
-import {useEffect, useState} from 'react';
-import {FavoriteEntry, readFavorites} from './services';
+import {useEffect} from 'react';
+import {useFavoritesStore} from '../../store/favoritesStore';
 
 export function useFavoritesController() {
-  const [items, setItems] = useState<FavoriteEntry[]>([]);
+  const items = useFavoritesStore(state => state.favorites);
+  const load = useFavoritesStore(state => state.load);
 
   useEffect(() => {
-    let isMounted = true;
-    readFavorites().then(data => {
-      if (isMounted) {
-        setItems(data);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    load();
+  }, [load]);
 
   return {items};
 }

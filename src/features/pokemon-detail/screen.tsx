@@ -1,5 +1,6 @@
 import React from 'react';
 import {useRoute} from '@react-navigation/native';
+import {useFavoritesStore} from '../../store/favoritesStore';
 import {PokemonDetailLayout} from './Layout';
 import {usePokemonDetailController} from './useFeatureController';
 
@@ -10,6 +11,12 @@ export function PokemonDetailScreen(): React.JSX.Element {
   const {name} = route.params as RouteParams;
   const {imageUrl, isLoading, isError, stats, types, abilities} =
     usePokemonDetailController(name);
+  const isFavorite = useFavoritesStore(state => state.isFavorite(name));
+  const toggle = useFavoritesStore(state => state.toggle);
+
+  const onToggleFavorite = () => {
+    toggle({name, imageUrl});
+  };
 
   return (
     <PokemonDetailLayout
@@ -21,6 +28,8 @@ export function PokemonDetailScreen(): React.JSX.Element {
         value: entry.base_stat,
       }))}
       abilities={abilities.map(entry => ({name: entry.ability.name}))}
+      isFavorite={isFavorite}
+      onToggleFavorite={onToggleFavorite}
       isLoading={isLoading}
       isError={isError}
     />

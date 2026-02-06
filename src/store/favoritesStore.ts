@@ -5,6 +5,7 @@ type FavoritesState = {
   favorites: {name: string; imageUrl?: string | null}[];
   load: () => Promise<void>;
   toggle: (item: {name: string; imageUrl?: string | null}) => Promise<void>;
+  isFavorite: (name: string) => boolean;
 };
 
 export const useFavoritesStore = create<FavoritesState>((set, get) => ({
@@ -21,5 +22,9 @@ export const useFavoritesStore = create<FavoritesState>((set, get) => ({
       : [...favorites, item];
     set({favorites: next});
     await writeFavorites(next);
+  },
+  isFavorite: name => {
+    const {favorites} = get();
+    return favorites.some(entry => entry.name === name);
   },
 }));
